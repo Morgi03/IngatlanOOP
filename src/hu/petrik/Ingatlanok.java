@@ -93,7 +93,30 @@ public class Ingatlanok {
                 .collect(Collectors.groupingBy(Ingatlan::getVaros,Collectors.counting()));
     }
 
-    
+    public long getEladasokSzamaAVarosban(String varos){
+        return this.ingatlanList.stream().filter(ing -> ing.getVaros().equals(varos)).count();
+    }
+    public long getEladasokOsszertekeAVarosban(String varos){
+        return this.ingatlanList.stream().filter(ing -> ing.getVaros().equals(varos)).mapToInt(Ingatlan::getAr).sum();
+    }
+
+    public List<Ingatlan> getIngatlanEladasokAdataiAVarosban(String varos){
+        return this.ingatlanList.stream().filter(ing -> ing.getVaros().equals(varos)).toList();
+    }
+
+    public List<String> getVarosokNovekvoSorrendben(){
+        return this.ingatlanList.stream().
+                map(Ingatlan::getVaros).sorted().distinct().toList();
+    }
+
+    public List<String> getIngatlanTipusok(){
+        return this.ingatlanList.stream().
+                map(Ingatlan::getTipus).distinct().toList();
+    }
+
+    public List <Ingatlan> get5MostValuableIngatlan(){
+        return this.ingatlanList.stream().sorted((ingA,ingB) -> Integer.compare(ingA.getAr(), ingB.getAr())).limit(5).toList();
+    }
 
 
 
